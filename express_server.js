@@ -14,7 +14,7 @@ var urlDatabase = {
   "2kjg7L" : "http://www.tsn.ca"
 };
 
-// ------------------------------- Generate Random String
+// ------------------------------- Generate random string
 function generateRandomString() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -23,6 +23,7 @@ function generateRandomString() {
   return text;
 }
 
+// -------------------------------- See url databse
 app.get("/urls", (req, res) => {
   let templateVars = {
     urls: urlDatabase
@@ -38,10 +39,12 @@ app.post("/urls", (req, res) => {
   res.redirect("/urls");
 });
 
+// -------------------------------- Create new url
 app.get("/urls/new", (req, res) => {
   res.render("urls_new");
 });
 
+// -------------------------------- See specific id
 app.get("/urls/:id", (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
@@ -50,6 +53,14 @@ app.get("/urls/:id", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+// -------------------------------- Edit url for speific id
+app.post("/urls/:id", (req, res) => {
+  let longURL = req.body.longURL;
+  urlDatabase[req.params.id] = longURL;
+  res.redirect("/urls");
+});
+
+// -------------------------------- Go to specified shortURL
 app.get("/u/:shortURL", (req, res) => {
   let longURL = urlDatabase[req.params.shortURL];
   res.redirect(longURL);

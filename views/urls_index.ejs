@@ -12,6 +12,9 @@
     <ul>
       <% for (var prop in urls) { %>
         <li><strong><%= prop %>: </strong><%= urls[prop] %></li>
+        <form action="/urls/<%= prop %>">
+          <input type="submit" value="Edit" />
+        </form>
         <form action="/urls/<%= prop %>/delete" method="POST">
           <input type="submit" value="Delete" class="btn btn-default">
         </form>
