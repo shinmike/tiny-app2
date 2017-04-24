@@ -27,17 +27,11 @@ function generateRandomString() {
   return text;
 }
 
-app.get("/", (req, res) => {
-  let templateVars = {
-    urls: urlDatabase
-  };
-  res.render("urls_index", templateVars);
-});
-
 // -------------------------------- See url databse
 app.get("/urls", (req, res) => {
   let templateVars = {
-    urls: urlDatabase
+    urls: urlDatabase,
+    username: req.cookies.username
   };
   res.render("urls_index", templateVars);
 });
@@ -52,14 +46,15 @@ app.post("/urls", (req, res) => {
 
 // -------------------------------- Create new url
 app.get("/urls/new", (req, res) => {
-  res.render("urls_new");
+  res.render("urls_new", {username: req.cookies.username});
 });
 
 // -------------------------------- See specific id
 app.get("/urls/:id", (req, res) => {
   let templateVars = {
     shortURL: req.params.id,
-    longURL: urlDatabase[req.params.id]
+    longURL: urlDatabase[req.params.id],
+    username: req.cookies.username
   };
   res.render("urls_show", templateVars);
 });
@@ -86,7 +81,6 @@ app.post("/urls/:id/delete", (req, res) => {
 // -------------------------------- Login
 app.post("/login", (req, res) => {
   res.cookie("username", req.body.username);
-  console.log("this is the cookie, i believe: ", res.cookie);
   res.redirect("/urls");
 });
 

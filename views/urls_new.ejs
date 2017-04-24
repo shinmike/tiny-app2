@@ -5,7 +5,10 @@
   <title>Emi.ly</title>
 </head>
 <body style="font-size:20px; padding:50px;">
-  <% include partials/_header %>
+  <header>
+    <% include partials/_header %>
+  </header>
+  <!-- <h2>Hello, <%= username %></h2> -->
   <form action="/urls" method="POST" style="margin:150px;">
     <label for="longURL">Enter a URL:</label>
     <!-- name="longURL" is what is identified in req.body.longURL -->
