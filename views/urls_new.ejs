@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link href="/assets/styles.css" rel="stylesheet" type="text/css" />
+  <title>Emi.ly</title>
+</head>
+<body style="font-size:20px; padding:50px;">
+  <% include partials/_header %>
+  <form action="/urls" method="POST" style="margin:150px;">
+    <label for="longURL">Enter a URL:</label>
+    <!-- name="longURL" is what is identified in req.body.longURL -->
+    <input id="longURL" type="text" name="longURL" placeholder="http://" style="width: 300px">
+    <input type="submit" value="Submit">
+  </form>
+</body>
+</html>
