@@ -27,6 +27,13 @@ function generateRandomString() {
   return text;
 }
 
+app.get("/", (req, res) => {
+  let templateVars = {
+    urls: urlDatabase
+  };
+  res.render("urls_index", templateVars);
+});
+
 // -------------------------------- See url databse
 app.get("/urls", (req, res) => {
   let templateVars = {
@@ -77,7 +84,11 @@ app.post("/urls/:id/delete", (req, res) => {
 });
 
 // -------------------------------- Login
-
+app.post("/login", (req, res) => {
+  res.cookie("username", req.body.username);
+  console.log("this is the cookie, i believe: ", res.cookie);
+  res.redirect("/urls");
+});
 
 app.listen(PORT, function() {
   console.log(`Example app listening on port ${PORT}!`);
