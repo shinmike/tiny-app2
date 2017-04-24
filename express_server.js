@@ -1,4 +1,6 @@
 var express = require("express");
+var cookieParser = require('cookie-parser');
+
 var app = express();
 var PORT = process.env.PORT || 8080;
 
@@ -7,6 +9,8 @@ app.use("/assets", express.static("assets"));
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(cookieParser());
 
 var urlDatabase = {
   "b2xVn2" : "http://www.lighthouselabs.ca",
@@ -71,6 +75,9 @@ app.post("/urls/:id/delete", (req, res) => {
   delete urlDatabase[req.params.id];
   res.redirect("/urls");
 });
+
+// -------------------------------- Login
+
 
 app.listen(PORT, function() {
   console.log(`Example app listening on port ${PORT}!`);
