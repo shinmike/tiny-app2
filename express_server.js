@@ -18,7 +18,20 @@ var urlDatabase = {
   "2kjg7L" : "http://www.tsn.ca"
 };
 
-// ------------------------------- Generate random string
+const users = {
+  "userRandomID": {
+    id: "userRandomID",
+    email: "user@example.com",
+    password: "purple-monkey-dinosaur"
+  },
+ "user2RandomID": {
+    id: "user2RandomID",
+    email: "user2@example.com",
+    password: "dishwasher-funk"
+  }
+};
+
+// ------------------------------- Function - Generate random string
 function generateRandomString() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -57,6 +70,58 @@ app.get("/urls/:id", (req, res) => {
     username: req.cookies.username
   };
   res.render("urls_show", templateVars);
+});
+
+// -------------------------------- Register
+app.get("/register", (req, res) => {
+  res.render("register");
+});
+
+
+// -------------------------------- Function - Validate email and password
+function validateEmailAndPassword(email, password) {
+  return (password.length > 0 && email.includes('@'));
+}
+
+// -------------------------------- Function - Validate unique email
+function validateUniqueEmail(email){
+  for (var prop in users){
+    var user = users[prop];
+    if (user && user.email === email){
+      return false;
+    }
+  }
+  return true;
+}
+
+app.post("/register", (req, res) => {
+  let email = req.body.email;
+  let password = req.body.password;
+  let userId = generateRandomString();
+
+  console.log("users before validation: ", users);
+
+  if (!validateEmailAndPassword(email, password)){
+    res.status(400).send("Invalid email and/or password");
+    return;
+  }
+
+  if (!validateUniqueEmail(email)){
+    res.status(400).send("This email has already been registered");
+    return;
+  }
+
+  let userTemplate = {
+    id: userId,
+    email: email,
+    password: password
+  };
+  users[userId] = userTemplate;
+
+  console.log("users after validation: ", users);
+
+  res.cookie("user_id", userId);
+  res.redirect("/urls");
 });
 
 // -------------------------------- Edit url for speific id
