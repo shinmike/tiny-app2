@@ -144,14 +144,28 @@ app.post("/urls/:id/delete", (req, res) => {
 });
 
 // -------------------------------- Login
+app.get("/login", (req,res) => {
+  res.render("login");
+});
+
 app.post("/login", (req, res) => {
-  // res.cookie("username", req.body.username);
-  res.redirect("/urls");
+  let email = req.body.email;
+  let password = req.body.password;
+  let user;
+  for (let prop in users){
+    user = users[prop];
+  }
+  if (user && user.email === email && user.password === password){
+    res.cookie("user_id", user.id);
+    res.redirect("/urls");
+  } else {
+    res.status(403).send("Bad credentials");
+  }
 });
 
 // -------------------------------- Logout
 app.post("/logout", (req, res) => {
-  res.clearCookie("username");
+  res.clearCookie("user_id");
   res.redirect("/urls");
 })
 
